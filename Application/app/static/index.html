@@ -1,1 +1,103 @@
-test
+<html>
+  <head>
+    <link rel="stylesheet" href="leaflet/leaflet.css"
+      integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+      crossorigin=""/>
+    <script src="leaflet/leaflet.js"
+      integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+      crossorigin=""></script>
+    <script src="js/utilities.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/carparks.js"></script>
+    <style>
+      body {
+        margin: 0px;
+      }
+
+      #map-container {
+        width: 100%;
+        height: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="map-container"></div>
+    <!-- <div style="position: absolute; bottom: 10px; right: 10px; z-index: 1000; width: 300px; background-color: rgba(180, 180, 180, 0.75); padding: 20px;">Accident on CTE (towards AYE) before Braddell Rd/Lor Chuan Exit.</div> -->
+    <script>
+      // const carparks = [
+      //   {
+      //     "name": "BLK 21 TOH YI DRIVE",
+      //     "lat": 1.3384565660881464,
+      //     "lon": 103.77197118635459,
+      //     "lots": [
+      //       {
+      //         "type": "C",
+      //         "available": 32
+      //       }
+      //     ]
+      //   }, 
+      //   {
+      //     "name": "BLK 1/19 TOH YI DRIVE",
+      //     "lat": 1.3384699571070946,
+      //     "lon": 103.77365302120513,
+      //     "lots": [
+      //       {
+      //         "type": "C",
+      //         "available": 10
+      //       }
+      //     ]
+      //   }
+      // ];
+
+      // const carpark_popups = L.layerGroup(carparks.map((carpark) => {
+      //   return L.popup({ autoClose: false, closeButton: false, closeOnClick: false })
+      //     .setLatLng([carpark.lat, carpark.lon])
+      //     .setContent(`<h3>${carpark.name}</h3><div>${carpark.lots[0].available} lots available</div>`)
+      // }));
+
+      // const erpIcon = L.icon({
+      //   iconUrl: "ERP.png",
+
+      //   iconSize: [72, 30],
+      //   iconAnchor: [Math.floor(72 / 2), 0],
+      //   popupAnchor: [0, 0]
+      // });
+
+      // const ERPs = [
+      //   {
+      //     "lat": 1.333448,
+      //     "lon": 103.862515
+      //   }
+      // ];
+
+      // const erp = L.marker([1.333448, 103.862515], { icon: erpIcon }).addTo(map);
+      // const erp_pu = L.popup({ autoClose: false, closeButton: false, closeOnClick: false })
+      //   .setContent("<h3>CTE slip road to PIE (Changi)</h3><div>Current Toll: $0.50<br/>Next Toll: $1.00</div>");
+      // erp.bindPopup(erp_pu).openPopup();
+
+      // const erp_popups = L.layerGroup([erp, erp_pu]);
+
+      // const cameraIcon = L.icon({
+      //   iconUrl: "security-camera-vector-art.png",
+      //   iconSize: [100, 68],
+      //   iconAnchor: [Math.floor(100 / 2), Math.floor(68 / 2)],
+      //   popupAnchor: [0, -Math.floor(68 / 2)]
+      // });
+
+      // const cam = L.marker([1.42214311, 103.79542062], { icon: cameraIcon }).addTo(map);
+      // const cam_pu = L.popup({ autoClose: false, closeButton: false, closeOnClick: false })
+      //   .setContent("<div style='width: 300px; height: 300px; background-image: url(9704_1926_20200830192832_6e16a2.jpg); background-size: cover; background-position: center;'></div>");
+      // cam.bindPopup(cam_pu).openPopup();
+
+      // const cam_popups = L.layerGroup([cam, cam_pu]);
+
+      // const alertIcon = L.icon({
+      //   iconUrl: "alert.png",
+      //   iconSize: [100, 105],
+      //   iconAnchor: [Math.floor(100 / 2), Math.floor(105 / 2)]
+      // });
+
+      // const accident = L.marker([1.3495474359127375, 103.85826815546338], { icon: alertIcon }).addTo(map);
+    </script>
+  </body>
+</html>
