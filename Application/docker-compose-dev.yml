@@ -8,4 +8,13 @@ services:
     volumes:
       - ./app:/app
     ports:
-      - 8080:5000
+      - 8000:5000
+    environment:
+      - FLASK_ENV=development
+      - SECRET_API_KEY_DATAMALL=/run/secrets/api_key_datamall
+    secrets:
+      - api_key_datamall
+
+secrets:
+  api_key_datamall:
+    file: ./secrets/api_key_datamall
