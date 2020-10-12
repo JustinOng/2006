@@ -13,8 +13,10 @@ Running:
     2. Create a new virtual environment: `python -m venv venv`
     3. Activate the virtual environment: `.\venv\Scripts\activate.ps1`. The last line of your PowerShell window should start with `(venv)`, eg  ```(venv) PS C:\Users\User\Documents\Repositories\CLONS5\Application\app>```
     4. Install the packages that the application requires: `pip install -r requirements.txt`
-    5. Execute `Start-Dev.ps1`: `.\Start-Dev.ps1`
-    6. Web server should be accessible at `http://localhost:5000`
+    5. Copy `Application/secrets-template/` to `Application/secrets/`
+        - Fill out the files with the appropriate data
+    6. Execute `Start-Dev.ps1`: `.\Start-Dev.ps1`
+    7. Web server should be accessible at `http://localhost:5000`
 
 # Linux:
 
@@ -24,6 +26,8 @@ Requirements:
 
 Running:
 1. Clone this repository
-2. `cd` to `...\CLONS5\Application\app`
-3. `docker-compose -f docker-compose-dev.yaml up`
-4. Web server should be accessible at `:8000`
+2. Copy `Application/secrets-template/` to `Application/secrets/`
+    - Fill out the files with the appropriate data
+3. `cd` to `...\CLONS5\Application\app`
+4. `docker-compose -f docker-compose-dev.yaml up`
+5. Web server should be accessible at `:8000`
