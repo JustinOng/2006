@@ -1,4 +1,3 @@
-import json
 from datetime import datetime, timedelta
 import functools
 from copy import deepcopy
@@ -32,7 +31,7 @@ def get_carparks_info():
     while True:
         r = ses.get(link)
         if r.status_code == 200:
-            data = json.loads(r.text)
+            data = r.json()
             records = data["result"]["records"]
 
             for record in records:
@@ -70,7 +69,7 @@ def get_carparks_availability():
     app.logger.info(f'Got response with date={r.headers["Date"]}')
 
     carparks = []
-    data = json.loads(r.text)
+    data = r.json()
 
     for record in data["items"][0]["carpark_data"]:
         last_updated = datetime.fromisoformat(record["update_datetime"])
