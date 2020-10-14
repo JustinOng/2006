@@ -59,6 +59,9 @@ def get_carparks_availability():
     # https://data.gov.sg/dataset/carpark-availability
     global carpark_info
 
+    if len(carpark_info) == 0:
+        carpark_info = get_carparks_info()
+
     r = ses.get("https://api.data.gov.sg/v1/transport/carpark-availability")
     if r.status_code != 200:
         app.logger.warn(f'Carpark Availiability return status code {r.status_code}')
@@ -69,22 +72,14 @@ def get_carparks_availability():
     carparks = []
     data = json.loads(r.text)
 
-    # track whether we've reloaded carpark info
-    # this is done if a carpark name from carpark-availability is not found in carpark_info
-    reloaded_carpark_info = False
-
     for record in data["items"][0]["carpark_data"]:
         last_updated = datetime.fromisoformat(record["update_datetime"])
         if last_updated < (datetime.now() - timedelta(hours=1)):
             # ignore record if too old
             continue
 
-        if record["carpark_number"] not in carpark_info and not reloaded_carpark_info:
-            carpark_info = get_carparks_info()
-            reloaded_carpark_info = True
-
+        # there are certain IDs that are not present in info, just drop them
         if record["carpark_number"] not in carpark_info:
-            app.logger.warn(f'Cannot identify carpark with carpark_number={record["carpark_number"]}')
             continue
 
         car_lots_available = None
