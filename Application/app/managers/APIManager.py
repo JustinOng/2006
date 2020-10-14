@@ -1,10 +1,13 @@
 import json
 from datetime import datetime, timedelta
 import requests
+import requests_cache
 
 from app import app
 import utilities
 from entities import Carpark
+
+requests_cache.install_cache("cache", expire_after=60)
 
 datamall_ses = requests.Session()
 datamall_ses.headers.update({
