@@ -85,7 +85,7 @@ def get_carparks_availability():
 
         for lot_info in record["carpark_info"]:
             if lot_info["lot_type"] == "C":
-                car_lots_available = lot_info["lots_available"]
+                car_lots_available = int(lot_info["lots_available"])
         
         if car_lots_available is None:
             # this carpark has no car lots, we're not interested at all
