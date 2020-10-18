@@ -1,0 +1,17 @@
+.leaflet-div-icon {
+  background-color: initial;
+  border: initial;
+}
+
+/* computed with https://codepen.io/sosuke/pen/Pjoqqp */
+.carpark-full > img {
+  filter: invert(26%) sepia(83%) saturate(7483%) hue-rotate(358deg) brightness(95%) contrast(123%);
+}
+
+.carpark-almostfull > img {
+  filter: invert(42%) sepia(59%) saturate(6204%) hue-rotate(0deg) brightness(101%) contrast(105%);
+}
+
+.carpark-available > img {
+  filter: invert(24%) sepia(95%) saturate(1829%) hue-rotate(93deg) brightness(96%) contrast(106%);
+}
