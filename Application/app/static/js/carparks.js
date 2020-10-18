@@ -52,7 +52,11 @@ function load_carparks(map, lat, lon, radius) {
         });
         marker.available_lots = carpark.available_lots;
         marker.bindPopup(carpark.name);
-        marker.bindTooltip(`${carpark.available_lots} lots available`);
+        if (carpark.available_lots == 0) {
+          marker.bindTooltip("No lots available")
+        } else {
+          marker.bindTooltip(`${carpark.available_lots} lot${carpark.available_lots == 1 ? '' : 's'} available`);
+        }
 
         carpark_layer.addLayer(marker);
         carpark_cur_ids.push(carpark_id);
