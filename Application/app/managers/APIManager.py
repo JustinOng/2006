@@ -1,5 +1,5 @@
+from datetime import datetime
 import functools
-from copy import deepcopy
 import requests
 import requests_cache
 
@@ -19,7 +19,10 @@ datamall_ses.headers.update({
     "AccountKey": utilities.get_secret("SECRET_API_KEY_DATAMALL")
 })
 
-def get_carparks_info():
+def parse_date_header(header):
+    return datetime.strptime(header, "%a, %d %b %Y %H:%M:%S GMT")
+
+def get_hdb_carparks_info():
     # https://data.gov.sg/dataset/hdb-carpark-information
     carparks = {}
 
@@ -50,17 +53,24 @@ def get_carparks_info():
     
     return carparks
 
-def get_carparks_availability():
+def get_hdb_carparks_availability():
     # https://data.gov.sg/dataset/carpark-availability
 
     r = ses.get("https://api.data.gov.sg/v1/transport/carpark-availability")
     if r.status_code != 200:
-        app.logger.warn(f'Carpark Availiability return status code {r.status_code}')
-        raise Exception(f'Failed to retrieve carpark availability: {r.text}')
+        app.logger.warn(f'HDB Carpark Availiability return status code {r.status_code}')
+        raise Exception(f'Failed to retrieve HDB carpark availability: {r.text}')
 
-    app.logger.info(f'Got response with date={r.headers["Date"]}')
+    response_date = parse_date_header(r.headers["Date"])
 
-    carparks = []
-    data = r.json()
+    return response_date, r.json()["items"][0]["carpark_data"]
 
-    return data["items"][0]["carpark_data"]
+def get_dm_carparks_availability():
+    r = datamall_ses.get("http://datamall2.mytransport.sg/ltaodataservice/CarParkAvailabilityv2")
+    if r.status_code != 200:
+        app.logger.warn(f'DM Carpark Availiability return status code {r.status_code}')
+        raise Exception(f'Failed to retrieve DM carpark availability: {r.text}')
+
+    response_date = parse_date_header(r.headers["Date"])
+    
+    return response_date, r.json()["value"]
