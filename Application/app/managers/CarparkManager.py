@@ -1,8 +1,10 @@
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from haversine import haversine
 
 from managers import APIManager
 from entities import Carpark
+
+TZ_GMT8 = timezone(timedelta(hours=8))
 
 carpark_info = {}
 
@@ -12,7 +14,7 @@ def get_nearby_carparks(lat, lon, radius):
     if len(carpark_info) == 0:
         carpark_info = APIManager.get_hdb_carparks_info()
 
-    hdb_avail = APIManager.get_hdb_carparks_availability()
+    _, hdb_avail = APIManager.get_hdb_carparks_availability()
     carparks = {}
 
     for record in hdb_avail:
@@ -43,10 +45,13 @@ def get_nearby_carparks(lat, lon, radius):
             lot_type = "C",
             latitude = carpark_info[_id]["latitude"],
             longitude = carpark_info[_id]["longitude"],
+            last_updated = last_updated.replace(tzinfo=TZ_GMT8).isoformat(),
             source = "HDB"
         )
 
-    dm_avail = APIManager.get_dm_carparks_availability()
+    retrieval_date, dm_avail = APIManager.get_dm_carparks_availability()
+
+    print(retrieval_date.isoformat())
 
     for record in dm_avail:
         if record["LotType"] != "C" or record["Location"] == "":
@@ -61,6 +66,7 @@ def get_nearby_carparks(lat, lon, radius):
             lot_type = record["LotType"],
             latitude = lat,
             longitude = lon,
+            last_updated = retrieval_date.astimezone(tz=TZ_GMT8).isoformat(),
             source = "DataMall"
         )
 
