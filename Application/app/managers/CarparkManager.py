@@ -10,12 +10,12 @@ def get_nearby_carparks(lat, lon, radius):
     global carpark_info
 
     if len(carpark_info) == 0:
-        carpark_info = APIManager.get_carparks_info()
+        carpark_info = APIManager.get_hdb_carparks_info()
 
-    avail = APIManager.get_carparks_availability()
-    carparks = []
+    hdb_avail = APIManager.get_hdb_carparks_availability()
+    carparks = {}
 
-    for record in avail:
+    for record in hdb_avail:
         last_updated = datetime.fromisoformat(record["update_datetime"])
         if last_updated < (datetime.now() - timedelta(hours=1)):
             # ignore record if too old
@@ -36,7 +36,7 @@ def get_nearby_carparks(lat, lon, radius):
             continue
 
         _id = record["carpark_number"]
-        carparks.append(Carpark.Carpark(
+        carparks[_id] = Carpark.Carpark(
             _id = _id,
             name = carpark_info[_id]["address"],
             available_lots = car_lots_available,
@@ -44,7 +44,25 @@ def get_nearby_carparks(lat, lon, radius):
             latitude = carpark_info[_id]["latitude"],
             longitude = carpark_info[_id]["longitude"],
             last_updated = last_updated.isoformat()
-        ))
+        )
+
+    dm_avail = APIManager.get_dm_carparks_availability()
+
+    for record in dm_avail:
+        if record["LotType"] != "C" or record["Location"] == "":
+            continue
+
+        lat, lon = map(float, record["Location"].split(" ")[:2])
+
+        carparks[record["CarParkID"]] = Carpark.Carpark(
+            _id = record["CarParkID"],
+            name = record["Development"],
+            available_lots = record["AvailableLots"],
+            lot_type = record["LotType"],
+            latitude = lat,
+            longitude = lon,
+            last_updated = datetime.now().isoformat()
+        )
 
     user_loc = (lat, lon)
 
@@ -52,4 +70,4 @@ def get_nearby_carparks(lat, lon, radius):
         distance = haversine(user_loc, (carpark["latitude"], carpark["longitude"]))
         return distance < radius
 
-    return list(filter(filter_distance,carparks))
+    return list(filter(filter_distance, carparks.values()))
