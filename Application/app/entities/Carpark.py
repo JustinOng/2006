@@ -8,7 +8,8 @@ class Carpark(dict):
         lot_type: str,
         latitude: float,
         longitude: float,
-        last_updated: str
+        last_updated: str,
+        source: str
     ):
         self.id = _id
         self.name = name
@@ -17,6 +18,7 @@ class Carpark(dict):
         self.latitude = latitude
         self.longitude = longitude
         self.last_updated = last_updated
+        self.source = source
 
         dict.__init__(self,
             id = _id,
@@ -25,5 +27,6 @@ class Carpark(dict):
             lot_type = lot_type,
             latitude = latitude,
             longitude = longitude,
-            last_updated = last_updated
+            last_updated = last_updated,
+            source = source
         )

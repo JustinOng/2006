@@ -43,7 +43,7 @@ def get_nearby_carparks(lat, lon, radius):
             lot_type = "C",
             latitude = carpark_info[_id]["latitude"],
             longitude = carpark_info[_id]["longitude"],
-            last_updated = last_updated.isoformat()
+            source = "HDB"
         )
 
     dm_avail = APIManager.get_dm_carparks_availability()
@@ -61,7 +61,7 @@ def get_nearby_carparks(lat, lon, radius):
             lot_type = record["LotType"],
             latitude = lat,
             longitude = lon,
-            last_updated = datetime.now().isoformat()
+            source = "DataMall"
         )
 
     user_loc = (lat, lon)
