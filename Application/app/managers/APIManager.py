@@ -1,5 +1,4 @@
 import functools
-from copy import deepcopy
 import requests
 import requests_cache
 
