@@ -2,16 +2,18 @@ const carpark_layer = L.markerClusterGroup({
   iconCreateFunction: (cluster) => {
     var childCount = cluster.getChildCount();
 
-    var c = ' marker-cluster-';
-    if (childCount < 10) {
-      c += 'small';
-    } else if (childCount < 100) {
-      c += 'medium';
+    const lots_available = cluster.getAllChildMarkers().reduce((acc, child) => acc + child.available_lots, 0);
+
+    let c = "marker-cluster-carpark-";
+    if (lots_available == 0) {
+      c += "full";
+    } else if (lots_available < 10) {
+      c += "almostfull";
     } else {
-      c += 'large';
+      c += "available";
     }
 
-    return new L.DivIcon({ html: '<div><span>' + childCount + '</span></div>', className: 'marker-cluster' + c, iconSize: new L.Point(40, 40) });
+    return new L.DivIcon({ html: '<div><span>' + lots_available + '</span></div>', className: 'marker-cluster ' + c, iconSize: new L.Point(40, 40) });
   }
 });
 const carpark_cur_ids = [];
@@ -48,6 +50,7 @@ function load_carparks(map, lat, lon, radius) {
             className: carpark_availability
           })
         });
+        marker.available_lots = carpark.available_lots;
         marker.bindPopup(carpark.name);
         marker.bindTooltip(`${carpark.available_lots} lots available`);
 
