@@ -30,11 +30,22 @@ function load_carparks(map, lat, lon, radius) {
       for (const carpark_id of new_ids) {
         const carpark = carparks[carpark_id];
 
+        let carpark_availability = "carpark-";
+
+        if (carpark.available_lots == 0) {
+          carpark_availability += "full";
+        } else if (carpark.available_lots < 10) {
+          carpark_availability += "almostfull";
+        } else {
+          carpark_availability += "available"
+        }
+
         const marker = L.marker([carpark.latitude, carpark.longitude], {
           title: carpark.available_lots,
           icon: L.divIcon({
             html: `<img src="img/icons/car-solid.svg"/>`,
-            iconSize: [32, 32]
+            iconSize: [32, 32],
+            className: carpark_availability
           })
         });
         marker.bindPopup(carpark.name);
