@@ -2,14 +2,24 @@ version: '3.1'
 
 services:
   app:
-    image: 2006-carhub:latest
+    image: index.docker.io/justinong43/2006-carhub:latest
     ports:
       - 8000:80
     environment:
       - SECRET_API_KEY_DATAMALL=/run/secrets/api_key_datamall
     secrets:
       - api_key_datamall
+    labels:
+      - com.centurylinklabs.watchtower.enable=true
+      - traefik.frontend.rule=Host:carhub.justins.in
+    networks:
+      web:
+        ipv4_address: 172.19.0.3
 
 secrets:
   api_key_datamall:
     file: ./secrets/api_key_datamall
+
+networks:
+  web:
+    external: true
