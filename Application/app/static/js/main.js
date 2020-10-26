@@ -12,7 +12,8 @@ window.onload = () => {
 
   L.control
     .layers(null, {
-      Carparks: carpark_layer,
+      "Carparks": carpark_layer,
+      "Traffic Images": trafficimage_layer
     })
     .addTo(map);
 
@@ -30,4 +31,6 @@ window.onload = () => {
       console.error("Failed to retrieve geolocation:", err);
     }
   );
+
+  load_trafficimages_markers();
 };
