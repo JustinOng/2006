@@ -84,3 +84,13 @@ def get_dm_traffic_images():
     response_date = parse_date_header(r.headers["Date"])
     
     return response_date, r.json()["value"]
+
+def get_dm_traffic_incidents():
+    r = datamall_ses.get("http://datamall2.mytransport.sg/ltaodataservice/TrafficIncidents")
+    if r.status_code != 200:
+        app.logger.warn(f'DM Traffic Incidents return status code {r.status_code}')
+        raise Exception(f'Failed to retrieve DM traffic incidents: {r.text}')
+
+    response_date = parse_date_header(r.headers["Date"])
+    
+    return response_date, r.json()["value"]
