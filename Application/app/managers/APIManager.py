@@ -84,3 +84,48 @@ def get_dm_traffic_images():
     response_date = parse_date_header(r.headers["Date"])
     
     return response_date, r.json()["value"]
+
+def get_erp_info():
+    
+    erps = {}
+    erp_data = []
+    skip = 0
+    
+    while True:
+        print(f'{skip}')
+        r = datamall_ses.get(f'http://datamall2.mytransport.sg/ltaodataservice/ERPRates?$skip={skip}')
+        if r.status_code != 200:
+            app.logger.warn(f'ERP Rates return status code {r.status_code}')
+            raise Exception(f'Failed to retrieve ERP rates: {r.text}')
+        
+        data_response = r.json()["value"]
+
+        len_response = len(data_response)
+        print(f'Gotten {len_response}')
+        erp_data += data_response
+
+        if len_response < 500:
+            break
+
+        skip += len_response
+
+    for record in erp_data:
+        if record["VehicleType"] != "Passenger Cars/Light Goods Vehicles/Taxis":
+            continue
+        
+        zoneId = record["ZoneID"]
+        
+        if not zoneId in erps:
+            erps[zoneId] = {
+            "vehicleType": record["VehicleType"],
+            "erpDetails": []
+            }
+        
+        erps[zoneId]["erpDetails"].append({
+            "dayType": record["DayType"],
+            "startTime": record["StartTime"],
+            "endTime": record["EndTime"],
+            "chargeAmt": record["ChargeAmount"]
+        })
+    return erps
+    
