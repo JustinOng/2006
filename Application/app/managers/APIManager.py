@@ -86,13 +86,11 @@ def get_dm_traffic_images():
     return response_date, r.json()["value"]
 
 def get_erp_info():
-    
     erps = {}
     erp_data = []
     skip = 0
     
     while True:
-        print(f'{skip}')
         r = datamall_ses.get(f'http://datamall2.mytransport.sg/ltaodataservice/ERPRates?$skip={skip}')
         if r.status_code != 200:
             app.logger.warn(f'ERP Rates return status code {r.status_code}')
@@ -101,7 +99,6 @@ def get_erp_info():
         data_response = r.json()["value"]
 
         len_response = len(data_response)
-        print(f'Gotten {len_response}')
         erp_data += data_response
 
         if len_response < 500:
@@ -128,4 +125,3 @@ def get_erp_info():
             "chargeAmt": record["ChargeAmount"]
         })
     return erps
-    
