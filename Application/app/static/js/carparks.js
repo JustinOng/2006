@@ -2,7 +2,9 @@ const carpark_layer = L.markerClusterGroup({
   iconCreateFunction: (cluster) => {
     var childCount = cluster.getChildCount();
 
-    const lots_available = cluster.getAllChildMarkers().reduce((acc, child) => acc + child.available_lots, 0);
+    const lots_available = cluster
+      .getAllChildMarkers()
+      .reduce((acc, child) => acc + child.available_lots, 0);
 
     let c = "marker-cluster-carpark-";
     if (lots_available == 0) {
@@ -13,13 +15,27 @@ const carpark_layer = L.markerClusterGroup({
       c += "available";
     }
 
-    return new L.DivIcon({ html: '<div><span>' + lots_available + '</span></div>', className: 'marker-cluster ' + c, iconSize: new L.Point(40, 40) });
-  }
+    return new L.DivIcon({
+      html: "<div><span>" + lots_available + "</span></div>",
+      className: "marker-cluster " + c,
+      iconSize: new L.Point(40, 40),
+    });
+  },
 });
 const carpark_cur_ids = [];
 
 function load_carparks(map, lat, lon, radius) {
-  fetch(`/api/carparks/get?lat=${lat}&lon=${lon}&radius=${radius}`)
+  fetch(`/api/carparks/get`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      lat: lat,
+      lon: lon,
+      radius: radius,
+    }),
+  })
     .then((res) => res.json())
     .then((data) => {
       const carparks = {};
@@ -39,7 +55,7 @@ function load_carparks(map, lat, lon, radius) {
         } else if (carpark.available_lots < 10) {
           carpark_availability += "almostfull";
         } else {
-          carpark_availability += "available"
+          carpark_availability += "available";
         }
 
         const marker = L.marker([carpark.latitude, carpark.longitude], {
@@ -47,15 +63,19 @@ function load_carparks(map, lat, lon, radius) {
           icon: L.divIcon({
             html: `<img src="img/icons/car-solid.svg"/>`,
             iconSize: [32, 32],
-            className: carpark_availability
-          })
+            className: carpark_availability,
+          }),
         });
         marker.available_lots = carpark.available_lots;
         marker.bindPopup(carpark.name);
         if (carpark.available_lots == 0) {
-          marker.bindTooltip("No lots available")
+          marker.bindTooltip("No lots available");
         } else {
-          marker.bindTooltip(`${carpark.available_lots} lot${carpark.available_lots == 1 ? '' : 's'} available`);
+          marker.bindTooltip(
+            `${carpark.available_lots} lot${
+              carpark.available_lots == 1 ? "" : "s"
+            } available`
+          );
         }
 
         carpark_layer.addLayer(marker);
