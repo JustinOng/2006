@@ -61,14 +61,7 @@ function load_erps() {
         });
 
         marker.bindPopup(gantry["name"]);
-        if (
-          erp_active(
-            gantry,
-            new Date(
-              "Sat Oct 30 2020 08:35:47 GMT+0800 (Singapore Standard Time)"
-            )
-          ) === false
-        ) {
+        if (erp_active(gantry, new Date()) === false) {
           marker.setIcon(erpIconInactive);
           marker.setOpacity(0.5);
           marker.setZIndexOffset(-500);
