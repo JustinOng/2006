@@ -12,8 +12,10 @@ window.onload = () => {
 
   L.control
     .layers(null, {
-      "Carparks": carpark_layer,
-      "Traffic Images": trafficimage_layer
+      Carparks: carpark_layer,
+      "Traffic Images": trafficimage_layer,
+      Alerts: alert_layer,
+      "ERP Gantries": erp_layer,
     })
     .addTo(map);
 
@@ -33,4 +35,6 @@ window.onload = () => {
   );
 
   load_trafficimages_markers();
+  load_alerts();
+  load_erps();
 };
