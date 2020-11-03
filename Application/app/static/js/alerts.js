@@ -56,4 +56,7 @@ function displayAlert(alert) {
     content: alert["msg"],
     delay: 10000,
   });
+
+  const audio = new Audio("audio/bell.wav");
+  audio.play();
 }
