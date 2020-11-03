@@ -1,4 +1,5 @@
 const alertLayer = L.layerGroup([]);
+let seenAlertIds = false;
 
 function loadAlerts() {
   fetch("/api/alerts/get")
@@ -32,5 +33,27 @@ function loadAlerts() {
 
         return layer;
       });
+
+      const firstLoad = seenAlertIds === false;
+      if (firstLoad) seenAlertIds = [];
+
+      for (const alert of data["alerts"]) {
+        if (alert["type"] === "Roadworks") continue;
+
+        if (!firstLoad && !seenAlertIds.includes(alert["id"]))
+          displayAlert(alert);
+
+        seenAlertIds.push(alert["id"]);
+      }
     });
+}
+
+function displayAlert(alert) {
+  $.toast({
+    type: "info",
+    title: alert["type"],
+    subtitle: getRelativeTime(new Date(alert["reportedDatetime"])),
+    content: alert["msg"],
+    delay: 10000,
+  });
 }
