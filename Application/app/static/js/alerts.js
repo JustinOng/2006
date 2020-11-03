@@ -1,6 +1,6 @@
-const alert_layer = L.layerGroup([]);
+const alertLayer = L.layerGroup([]);
 
-function load_alerts() {
+function loadAlerts() {
   fetch("/api/alerts/get")
     .then((res) => res.json())
     .then((data) => {
@@ -10,7 +10,7 @@ function load_alerts() {
         iconAnchor: [Math.floor(32 / 2), Math.floor(32 / 2)],
       });
 
-      sync_display("alerts", alert_layer, data["alerts"], (layer, alert) => {
+      syncDisplay("alerts", alertLayer, data["alerts"], (layer, alert) => {
         if (layer === null) {
           layer = L.marker([alert["latitude"], alert["longitude"]], {
             icon: alertIcon,

@@ -1,6 +1,6 @@
-const erp_layer = L.layerGroup([]);
+const erpLayer = L.layerGroup([]);
 
-function in_record(record, datetime) {
+function inRecord(record, datetime) {
   // if record is weekday but datetime is not weekday, return false
   if (
     record["DayType"] === "Weekdays" &&
@@ -26,10 +26,10 @@ function in_record(record, datetime) {
   return false;
 }
 
-function erp_active(gantry, datetime) {
+function erpActive(gantry, datetime) {
   for (const record of gantry["records"]) {
     if (record["chargeAmount"] === 0) continue;
-    if (in_record(record, datetime)) {
+    if (inRecord(record, datetime)) {
       return record;
     }
   }
@@ -37,7 +37,7 @@ function erp_active(gantry, datetime) {
   return false;
 }
 
-function load_erps() {
+function loadErps() {
   fetch("/api/ERPs/get")
     .then((res) => res.json())
     .then((data) => {
@@ -61,7 +61,7 @@ function load_erps() {
         });
 
         marker.bindPopup(gantry["name"]);
-        if (erp_active(gantry, new Date()) === false) {
+        if (erpActive(gantry, new Date()) === false) {
           marker.setIcon(erpIconInactive);
           marker.setOpacity(0.5);
           marker.setZIndexOffset(-500);
@@ -69,7 +69,7 @@ function load_erps() {
           marker.setZIndexOffset(1000);
         }
 
-        erp_layer.addLayer(marker);
+        erpLayer.addLayer(marker);
       }
     });
 }

@@ -1,4 +1,4 @@
-const carpark_layer = L.markerClusterGroup({
+const carparkLayer = L.markerClusterGroup({
   iconCreateFunction: (cluster) => {
     const lots_available = cluster
       .getAllChildMarkers()
@@ -21,7 +21,7 @@ const carpark_layer = L.markerClusterGroup({
   },
 });
 
-function load_carparks(lat, lon, radius) {
+function loadCarparks(lat, lon, radius) {
   fetch(`/api/carparks/get`, {
     method: "POST",
     headers: {
@@ -40,7 +40,7 @@ function load_carparks(lat, lon, radius) {
         carparks[carpark.id] = carpark;
       }
 
-      sync_display("carparks", carpark_layer, carparks, (layer, carpark) => {
+      syncDisplay("carparks", carparkLayer, carparks, (layer, carpark) => {
         let carpark_availability = "carpark-";
 
         if (carpark.available_lots == 0) {

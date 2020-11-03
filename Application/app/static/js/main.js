@@ -3,7 +3,7 @@ const pos_marker = L.marker();
 
 function onPosUpdate(evt) {
   console.log("Got position update:", evt);
-  load_carparks(evt.latlng.lat, evt.latlng.lng, 5);
+  loadCarparks(evt.latlng.lat, evt.latlng.lng, 5);
 
   pos_marker.setLatLng(evt.latlng);
   map.addLayer(pos_marker);
@@ -21,10 +21,10 @@ window.onload = () => {
 
   L.control
     .layers(null, {
-      Carparks: carpark_layer,
-      "Traffic Images": trafficimage_layer,
-      Alerts: alert_layer,
-      "ERP Gantries": erp_layer,
+      Carparks: carparkLayer,
+      "Traffic Images": trafficimageLayer,
+      Alerts: alertLayer,
+      "ERP Gantries": erpLayer,
     })
     .addTo(map);
 
@@ -38,13 +38,13 @@ window.onload = () => {
     console.error("Failed to retrieve location:", err);
   });
 
-  load_trafficimages_markers();
-  load_alerts();
-  load_erps();
+  loadTrafficimageMarkers();
+  loadAlerts();
+  loadErps();
 };
 
 const displayed_layers = {};
-function sync_display(parent_id, parent_layer, data, display) {
+function syncDisplay(parent_id, parent_layer, data, display) {
   /*
     Given key:value pairs in data, create/update/remove layers to sync
     data with the displayed layers
