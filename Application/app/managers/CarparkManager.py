@@ -8,7 +8,7 @@ TZ_GMT8 = timezone(timedelta(hours=8))
 
 carpark_info = {}
 
-def get_nearby_carparks(lat, lon, radius):
+def get_nearby_carparks(user_lat, user_lon, radius):
     global carpark_info
 
     if len(carpark_info) == 0:
@@ -51,8 +51,6 @@ def get_nearby_carparks(lat, lon, radius):
 
     retrieval_date, dm_avail = APIManager.get_dm_carparks_availability()
 
-    print(retrieval_date.isoformat())
-
     for record in dm_avail:
         if record["LotType"] != "C" or record["Location"] == "":
             continue
@@ -70,7 +68,7 @@ def get_nearby_carparks(lat, lon, radius):
             source = "DataMall"
         )
 
-    user_loc = (lat, lon)
+    user_loc = (user_lat, user_lon)
 
     def filter_distance(carpark):
         distance = haversine(user_loc, (carpark["latitude"], carpark["longitude"]))
