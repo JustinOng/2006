@@ -1,12 +1,15 @@
 let map;
 const pos_marker = L.marker();
 
-function onPosUpdate(evt) {
-  console.log("Got position update:", evt);
-  loadCarparks(evt.latlng.lat, evt.latlng.lng, 5);
+function onPosUpdate(lat, lon) {
+  loadCarparks(lat, lon, 5);
 
-  pos_marker.setLatLng(evt.latlng);
-  map.addLayer(pos_marker);
+  if (lat && lon) {
+    const latlng = { lat: lat, lng: lon };
+    pos_marker.setLatLng(latlng);
+    map.addLayer(pos_marker);
+    map.flyTo(latlng);
+  }
 }
 
 function enableMapClick() {
@@ -39,6 +42,11 @@ window.onload = () => {
       '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors | Icons from <a href="https://fontawesome.com/license">Font Awesome</a> | Alert Sound: "Notification Up 1" by FoolBoyMedia of Freesound.org',
   }).addTo(map);
 
+  // map.on("click", (evt) => {
+  //   console.log("click at", evt.latlng.lat, evt.latlng.lng);
+  //   onPosUpdate(evt.latlng.lat, evt.latlng.lng);
+  // });
+
   controlLayers = {
     Carparks: {
       initiallyActive: true,
@@ -64,10 +72,13 @@ window.onload = () => {
     watch: true,
   });
 
-  map.on("locationfound", onPosUpdate);
+  map.on("locationfound", (evt) => {
+    onPosUpdate(evt.latlng.lat, evt.latlng.lng);
+  });
 
   map.on("locationerror", (err) => {
     console.error("Failed to retrieve location:", err);
+    onPosUpdate();
   });
 
   loadTrafficimageMarkers();
@@ -111,15 +122,6 @@ window.onload = () => {
 
     controlLayerSelector.appendChild(div);
   }
-
-  // for (const ele of document.querySelectorAll(".layer-selector .control")) {
-  //   console.log(ele.dataset.layer);
-  //   ele.addEventListener("click", (evt) => {
-  //     const layer = evt.target.dataset.layer;
-  //     const active = evt.target.classList.contains("active");
-  //     console.log(layer, active);
-  //   });
-  // }
 };
 
 const displayed_layers = {};
