@@ -1,0 +1,15 @@
+version: '3.1'
+
+services:
+  app:
+    image: 2006-carhub:latest
+    ports:
+      - 8000:80
+    environment:
+      - SECRET_API_KEY_DATAMALL=/run/secrets/api_key_datamall
+    secrets:
+      - api_key_datamall
+
+secrets:
+  api_key_datamall:
+    file: ./secrets/api_key_datamall
