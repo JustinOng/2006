@@ -1,4 +1,28 @@
 let map;
+
+const icons = {
+  alert: L.icon({
+    iconUrl: "img/icons/alert.png",
+    iconSize: [32, 32],
+    iconAnchor: [Math.floor(32 / 2), Math.floor(32 / 2)],
+  }),
+  roadwork: L.divIcon({
+    html: `<img src="img/icons/tools-solid-grey.png" style="width: 100%; height: 100%"/>`,
+    iconSize: [32, 32],
+  }),
+  erp: L.icon({
+    iconUrl: "img/icons/ERP.png",
+    iconSize: [36, 15],
+    iconAnchor: [Math.floor(36 / 2), Math.floor(15 / 2)],
+    popupAnchor: [0, 0],
+  }),
+  erpInactive: L.icon({
+    iconUrl: "img/icons/ERP_inactive.png",
+    iconSize: [36, 15],
+    iconAnchor: [Math.floor(36 / 2), Math.floor(15 / 2)],
+    popupAnchor: [0, 0],
+  }),
+};
 const pos_marker = L.marker();
 
 function setMapView(lat, lon) {
@@ -24,7 +48,7 @@ function enableMapClick() {
   });
 }
 
-function map_init() {
+function mapInit() {
   map = L.map("map-container", { zoomControl: false }).setView(
     [1.37, 103.8],
     12

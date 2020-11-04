@@ -41,28 +41,14 @@ function loadErps() {
   fetch("/api/ERPs/get")
     .then((res) => res.json())
     .then((data) => {
-      const erpIcon = L.icon({
-        iconUrl: "img/icons/ERP.png",
-        iconSize: [36, 15],
-        iconAnchor: [Math.floor(36 / 2), Math.floor(15 / 2)],
-        popupAnchor: [0, 0],
-      });
-
-      const erpIconInactive = L.icon({
-        iconUrl: "img/icons/ERP_inactive.png",
-        iconSize: [36, 15],
-        iconAnchor: [Math.floor(36 / 2), Math.floor(15 / 2)],
-        popupAnchor: [0, 0],
-      });
-
       for (const gantry of Object.values(data["ERPs"])) {
         const marker = L.marker([gantry["latitude"], gantry["longitude"]], {
-          icon: erpIcon,
+          icon: icons["erp"],
         });
 
         marker.bindPopup(gantry["name"]);
         if (erpActive(gantry, new Date()) === false) {
-          marker.setIcon(erpIconInactive);
+          marker.setIcon(icons["erpInactive"]);
           marker.setOpacity(0.5);
           marker.setZIndexOffset(-500);
         } else {
