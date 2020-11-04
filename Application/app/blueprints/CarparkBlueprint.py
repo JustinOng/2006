@@ -3,11 +3,11 @@ from managers import CarparkManager
 
 blueprint = Blueprint("carparks", __name__)
 
-@blueprint.route("/get")
+@blueprint.route("/get", methods=["POST"])
 def get_nearby_carparks():
     try:
-        lat = request.args.get("lat")
-        lon = request.args.get("lon")
+        lat = request.json.get("lat")
+        lon = request.json.get("lon")
         if not lat or not lon:
             raise Exception()
         
@@ -17,7 +17,7 @@ def get_nearby_carparks():
         abort(400)
 
     try:
-        radius = request.args.get("radius")
+        radius = request.json.get("radius")
 
         if not radius:
             raise Exception()
