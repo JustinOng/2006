@@ -47,11 +47,6 @@ window.onload = () => {
       '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors | Icons from <a href="https://fontawesome.com/license">Font Awesome</a> | Alert Sound: "Notification Up 1" by FoolBoyMedia of Freesound.org',
   }).addTo(map);
 
-  // map.on("click", (evt) => {
-  //   console.log("click at", evt.latlng.lat, evt.latlng.lng);
-  //   onPosUpdate(evt.latlng.lat, evt.latlng.lng);
-  // });
-
   controlLayers = {
     Carparks: {
       initiallyActive: true,
