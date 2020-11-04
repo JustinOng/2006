@@ -8,6 +8,7 @@ function onPosUpdate(lat, lon) {
     const latlng = { lat: lat, lng: lon };
     pos_marker.setLatLng(latlng);
     map.addLayer(pos_marker);
+    map.flyTo(latlng);
   }
 }
 
