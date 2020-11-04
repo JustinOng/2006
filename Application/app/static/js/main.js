@@ -1,6 +1,11 @@
 let map;
 const pos_marker = L.marker();
 
+function setMapView(lat, lon) {
+  const latlng = { lat: lat, lng: lon };
+  map.setView(latlng, 16);
+}
+
 function onPosUpdate(lat, lon) {
   loadCarparks(lat, lon, 5);
 

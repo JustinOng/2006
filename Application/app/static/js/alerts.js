@@ -54,14 +54,32 @@ function loadAlerts() {
 }
 
 function displayAlert(alert) {
+  const first = document.querySelector("#toast-container") === null;
+
   $.toast({
     type: "info",
     title: alert["type"],
-    subtitle: getRelativeTime(new Date(alert["reportedDatetime"])),
+    subtitle:
+      getRelativeTime(new Date(alert["reportedDatetime"])) +
+      `<div class="alert-data" data-latitude="${alert["latitude"]}" data-longitude="${alert["longitude"]}"></div>`,
     content: alert["msg"],
     delay: 10000,
   });
 
+  if (first) {
+    document
+      .querySelector("#toast-container")
+      .addEventListener("click", alertClicked);
+  }
+
   const audio = new Audio("audio/234524__foolboymedia__notification-up-1.wav");
   audio.play();
+}
+
+function alertClicked(evt) {
+  // if the close button is clicked do nothing
+  if (evt.target.innerText === "×") return;
+
+  const dataEle = evt.target.closest(".toast").querySelector(".alert-data");
+  setMapView(dataEle.dataset.latitude, dataEle.dataset.longitude);
 }
