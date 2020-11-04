@@ -14,7 +14,7 @@ window.onload = () => {
 
   L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
     attribution:
-      '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors | Icons from <a href="https://fontawesome.com/license">Font Awesome</a>',
+      '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors | Icons from <a href="https://fontawesome.com/license">Font Awesome</a> | Alert Sound: "Notification Up 1" by FoolBoyMedia of Freesound.org',
   }).addTo(map);
 
   map.on("click", onPosUpdate);
@@ -39,7 +39,7 @@ window.onload = () => {
   });
 
   loadTrafficimageMarkers();
-  loadAlerts();
+  setInterval(loadAlerts, 1000);
   loadErps();
 };
 
