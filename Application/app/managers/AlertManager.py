@@ -28,8 +28,8 @@ def get_alerts():
             msg = msg
         ))
     
-    out = alerts + fake_alerts
-    fake_alerts.clear()
+    out = alerts + [alert for alert, _ in fake_alerts]
+    expire_fake_alerts()
     return out
 
 def add_fake_alerts():
@@ -40,10 +40,16 @@ def add_fake_alerts():
         "type": "Vehicle breakdown"
     }
 
-    fake_alerts.append(Alert(
-        reportedDatetime = datetime.now() + timedelta(hours=8),
+    fake_alerts.append((Alert(
+        reportedDatetime = datetime.now() + timedelta(hours=8) - timedelta(minutes=5),
         alertType = data["type"],
         latitude = data["latitude"],
         longitude = data["longitude"],
         msg = data["msg"]
-    ))
+    ), datetime.now()))
+
+def expire_fake_alerts():
+    fake_alerts[:] = [
+        d for d in fake_alerts
+        if (datetime.now() - d[1]).total_seconds() < 60
+    ]
