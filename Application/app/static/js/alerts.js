@@ -38,7 +38,7 @@ function loadAlerts() {
       if (firstLoad) seenAlertIds = [];
 
       for (const alert of data["alerts"]) {
-        if (alert["type"] === "Roadworks") continue;
+        if (alert["type"] === "Roadwork") continue;
 
         if (!firstLoad && !seenAlertIds.includes(alert["id"]))
           displayAlert(alert);
