@@ -1,7 +1,5 @@
 const carpark_layer = L.markerClusterGroup({
   iconCreateFunction: (cluster) => {
-    var childCount = cluster.getChildCount();
-
     const lots_available = cluster
       .getAllChildMarkers()
       .reduce((acc, child) => acc + child.available_lots, 0);
@@ -24,7 +22,7 @@ const carpark_layer = L.markerClusterGroup({
 });
 const carpark_cur_ids = [];
 
-function load_carparks(map, lat, lon, radius) {
+function load_carparks(lat, lon, radius) {
   fetch(`/api/carparks/get`, {
     method: "POST",
     headers: {
