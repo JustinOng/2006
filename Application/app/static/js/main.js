@@ -10,7 +10,22 @@ function onPosUpdate(evt) {
 }
 
 window.onload = () => {
-  map = L.map("map-container").setView([1.37, 103.8], 12);
+  map = L.map("map-container", { zoomControl: false }).setView(
+    [1.37, 103.8],
+    12
+  );
+
+  document.querySelector(".control.zoom-in").addEventListener("click", () => {
+    map.zoomIn();
+  });
+
+  document.querySelector(".control.zoom-out").addEventListener("click", () => {
+    map.zoomOut();
+  });
+
+  map.setMaxBounds(
+    L.latLngBounds(L.latLng(1.5, 103.56), L.latLng(1.2, 104.14))
+  );
 
   L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
     attribution:
@@ -19,14 +34,26 @@ window.onload = () => {
 
   map.on("click", onPosUpdate);
 
-  L.control
-    .layers(null, {
-      Carparks: carparkLayer,
-      "Traffic Images": trafficimageLayer,
-      Alerts: alertLayer,
-      "ERP Gantries": erpLayer,
-    })
-    .addTo(map);
+  controlLayers = {
+    Carparks: {
+      initiallyActive: true,
+      icon: "car",
+      layer: carparkLayer,
+    },
+    "Traffic Images": {
+      icon: "video",
+      layer: trafficimageLayer,
+    },
+    Alerts: {
+      initiallyActive: true,
+      icon: "exclamation-circle",
+      layer: alertLayer,
+    },
+    "ERP Gantries": {
+      icon: "dungeon",
+      layer: erpLayer,
+    },
+  };
 
   map.locate({
     watch: true,
@@ -41,6 +68,53 @@ window.onload = () => {
   loadTrafficimageMarkers();
   setInterval(loadAlerts, 1000);
   loadErps();
+
+  $(function () {
+    $('[data-toggle="tooltip"]').tooltip();
+  });
+
+  const controlLayerSelector = document.querySelector(".layer-selector");
+  for (const layerName in controlLayers) {
+    const layerInfo = controlLayers[layerName];
+
+    const div = document.createElement("div");
+    div.classList.add("control");
+    div.dataset.toggle = "tooltip";
+    div.dataset.placement = "right";
+    div.dataset.layer = layerName;
+    div.title = layerName;
+    div.innerHTML = `<i class="fas fa-${layerInfo.icon}"></i>`;
+
+    if (layerInfo.initiallyActive) {
+      div.classList.add("active");
+      map.addLayer(layerInfo.layer);
+    }
+
+    div.addEventListener("click", (evt) => {
+      const layer = evt.target.dataset.layer;
+      // new state, active or not
+      const active = !evt.target.classList.contains("active");
+
+      if (active) {
+        map.addLayer(controlLayers[layer].layer);
+      } else {
+        map.removeLayer(controlLayers[layer].layer);
+      }
+
+      evt.target.classList.toggle("active");
+    });
+
+    controlLayerSelector.appendChild(div);
+  }
+
+  // for (const ele of document.querySelectorAll(".layer-selector .control")) {
+  //   console.log(ele.dataset.layer);
+  //   ele.addEventListener("click", (evt) => {
+  //     const layer = evt.target.dataset.layer;
+  //     const active = evt.target.classList.contains("active");
+  //     console.log(layer, active);
+  //   });
+  // }
 };
 
 const displayed_layers = {};

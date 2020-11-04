@@ -1,6 +1,7 @@
 <html>
   <head>
     <title>CarHub</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <link rel="stylesheet" href="leaflet/leaflet.css"
       integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="/>
     <link rel="stylesheet" href="leaflet.markercluster/MarkerCluster.css"
@@ -25,9 +26,21 @@
     <!-- https://github.com/Script47/Toast -->
     <link rel="stylesheet" href="css/toast.min.css"/>
     <script src="js/toast.min.js"></script>
+    <link href="css/all.min.css" rel="stylesheet">
   </head>
   <body>
     <div id="map-container"></div>
+    <div id="map-controls">
+      <div class="control-group">
+        <div class="control zoom-in">
+          <i class="fas fa-plus"></i>
+        </div>
+        <div class="control zoom-out">
+          <i class="fas fa-minus"></i>
+        </div>
+      </div>
+      <div class="control-group layer-selector"></div>
+    </div>
     <div class="modal fade" id="infoModal">
       <div class="modal-dialog">
         <div class="modal-content">
