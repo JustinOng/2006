@@ -1,6 +1,6 @@
 import re
 from app import app
-from datetime import datetime
+from datetime import datetime, timedelta
 from managers import APIManager
 from entities.Alert import Alert
 
@@ -41,7 +41,7 @@ def add_fake_alerts():
     }
 
     fake_alerts.append(Alert(
-        reportedDatetime = datetime.now(),
+        reportedDatetime = datetime.now() + timedelta(hours=8),
         alertType = data["type"],
         latitude = data["latitude"],
         longitude = data["longitude"],
