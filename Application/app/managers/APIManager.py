@@ -74,3 +74,13 @@ def get_dm_carparks_availability():
     response_date = parse_date_header(r.headers["Date"])
     
     return response_date, r.json()["value"]
+
+def get_dm_traffic_images():
+    r = datamall_ses.get("http://datamall2.mytransport.sg/ltaodataservice/Traffic-Imagesv2")
+    if r.status_code != 200:
+        app.logger.warn(f'DM Traffic Images return status code {r.status_code}')
+        raise Exception(f'Failed to retrieve DM traffic images: {r.text}')
+
+    response_date = parse_date_header(r.headers["Date"])
+    
+    return response_date, r.json()["value"]
