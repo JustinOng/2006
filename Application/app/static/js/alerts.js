@@ -16,7 +16,12 @@ function loadAlerts() {
         iconSize: [32, 32],
       });
 
-      syncDisplay("alerts", alertLayer, data["alerts"], (layer, alert) => {
+      const alerts = {};
+      for (const alert of data["alerts"]) {
+        alerts[alert.id] = alert;
+      }
+
+      syncDisplay("alerts", alertLayer, alerts, (layer, alert) => {
         if (layer === null) {
           layer = L.marker([alert["latitude"], alert["longitude"]], {
             icon: alertIcon,
