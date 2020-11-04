@@ -19,11 +19,10 @@ def get_erp_loc():
     erpRate = APIManager.get_erp_info()
 
     for records in data["erp_gantries"]:
-        gantry = ERPGantry.ERPGantry(_id = records["id"], name = records["name"],latitude = records["lat"], longitude = records["lon"], vehicle_type =  erpRate[erpIndex[records["id"]]]["vehicleType"])
+        gantry = ERPGantry.ERPGantry(_id = records["id"], name = records["name"],latitude = float(records["lat"]), longitude = float(records["lon"]), vehicle_type =  erpRate[erpIndex[records["id"]]]["vehicleType"])
         for details in erpRate[erpIndex[records["id"]]]["erpDetails"]:
             gantry.addRecord(dayType = details["dayType"], startTime = details["startTime"], endTime = details["endTime"], chargeAmount = details["chargeAmt"])
         
         erpDetails[gantry.id] = gantry
 
     return erpDetails
-    
