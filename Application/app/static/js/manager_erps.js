@@ -1,6 +1,10 @@
 const erpLayer = L.layerGroup([]);
 
 function inRecord(record, datetime) {
+  if (record["startTime"] >= record["endTime"]) {
+    throw `startTime=${record["startTime"]} must be lesser than endTime=${record["endTime"]}!`;
+  }
+
   // if record is weekday but datetime is not weekday, return false
   if (
     record["DayType"] === "Weekdays" &&
