@@ -8,3 +8,9 @@ def get_alerts():
     return {
         "alerts": AlertManager.get_alerts()
     }
+
+@blueprint.route("/fake")
+def add_fake_alert():
+    AlertManager.add_fake_alerts()
+    
+    return "ok"
