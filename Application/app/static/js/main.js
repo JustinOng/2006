@@ -39,7 +39,7 @@ window.onload = () => {
   });
 
   loadTrafficimageMarkers();
-  loadAlerts();
+  setInterval(loadAlerts, 1000);
   loadErps();
 };
 
