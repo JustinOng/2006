@@ -7,6 +7,63 @@ body {
   height: 100%;
 }
 
+#map-controls {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  margin: 20px;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+}
+
+#map-controls .control {
+  background-color: white;
+  padding: 10px;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+#map-controls .control-group {
+  border: 2px solid rgb(0, 0, 0, 0.2);
+  border-radius: 4px;
+  margin-bottom: 5px;
+}
+
+#map-controls .control-group .control {
+  border-bottom: 1px solid rgb(204, 204, 204);
+}
+
+#map-controls .control-group .control:last-child {
+  border-bottom: none;
+}
+
+#map-controls .control-group .control:nth-child(1) {
+  border-top-left-radius: 2px;
+  border-top-right-radius: 2px;
+}
+
+#map-controls .control-group .control:last-child {
+  border-bottom-left-radius: 2px;
+  border-bottom-right-radius: 2px;
+}
+
+#map-controls .control:hover {
+  background-color: rgb(244, 244, 244);
+}
+
+#map-controls .layer-selector .control {
+  color: #ceb9b9;
+}
+
+#map-controls .layer-selector .control.active {
+  color: blue;
+}
+
+#map-controls .control i {
+  pointer-events: none;
+}
+
 .leaflet-div-icon {
   background-color: initial;
   border: initial;
