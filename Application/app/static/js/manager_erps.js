@@ -10,7 +10,7 @@ function inRecord(record, datetime) {
   }
 
   // if record is Saturday but datetime is not saturday, return false
-  if (record["Saturdays"] === "Saturdays" && !(datetime.getDay() === 6)) {
+  if (record["DayType"] === "Saturday" && !(datetime.getDay() === 6)) {
     return false;
   }
 
