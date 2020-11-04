@@ -6,9 +6,9 @@ function loadTrafficimageMarkers() {
     .then((data) => {
       const cameraIcon = L.icon({
         iconUrl: "img/icons/security-camera-vector-art.png",
-        iconSize: [100, 68],
-        iconAnchor: [Math.floor(100 / 2), Math.floor(68 / 2)],
-        popupAnchor: [0, -Math.floor(68 / 2)],
+        iconSize: [47, 32],
+        iconAnchor: [Math.floor(47 / 2), Math.floor(32 / 2)],
+        popupAnchor: [0, -Math.floor(32 / 2)],
       });
 
       for (const camera of data["cameras"]) {
