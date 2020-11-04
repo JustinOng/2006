@@ -24,7 +24,7 @@ function enableMapClick() {
   });
 }
 
-window.onload = () => {
+function map_init() {
   map = L.map("map-container", { zoomControl: false }).setView(
     [1.37, 103.8],
     12
@@ -130,7 +130,7 @@ window.onload = () => {
 
     controlLayerSelector.appendChild(div);
   }
-};
+}
 
 const displayedLayers = {};
 function syncDisplay(parentId, parentLayer, data, display) {
