@@ -11,6 +11,9 @@ function onPosUpdate(evt) {
 
 window.onload = () => {
   map = L.map("map-container").setView([1.37, 103.8], 12);
+  map.setMaxBounds(
+    L.latLngBounds(L.latLng(1.5, 103.56), L.latLng(1.2, 104.14))
+  );
 
   L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
     attribution:
