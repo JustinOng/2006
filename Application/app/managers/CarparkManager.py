@@ -68,6 +68,9 @@ def get_nearby_carparks(user_lat, user_lon, radius):
             source = "DataMall"
         )
 
+    if user_lat is None or user_lon is None or radius is None:
+        return list(carparks.values())
+
     user_loc = (user_lat, user_lon)
 
     def filter_distance(carpark):
