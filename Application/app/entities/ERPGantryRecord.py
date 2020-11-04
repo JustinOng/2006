@@ -18,5 +18,3 @@ class ERPGantryRecord(dict):
             endTime = endTime,
             chargeAmount = chargeAmount,
         )
-
-        
