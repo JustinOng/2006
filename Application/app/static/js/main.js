@@ -132,8 +132,8 @@ window.onload = () => {
   }
 };
 
-const displayed_layers = {};
-function syncDisplay(parent_id, parent_layer, data, display) {
+const displayedLayers = {};
+function syncDisplay(parentId, parentLayer, data, display) {
   /*
     Given key:value pairs in data, create/update/remove layers to sync
     data with the displayed layers
@@ -143,29 +143,29 @@ function syncDisplay(parent_id, parent_layer, data, display) {
   */
   // appears .getLayerId is broken when called on markerClusterGroup
   // const parent_id = parent_layer.getLayerId();
-  if (typeof displayed_layers[parent_id] === "undefined") {
-    displayed_layers[parent_id] = {};
+  if (typeof displayedLayers[parentId] === "undefined") {
+    displayedLayers[parentId] = {};
   }
 
-  const incoming_ids = Object.keys(data);
-  const existing_ids = Object.keys(displayed_layers[parent_id]);
+  const incomingIds = Object.keys(data);
+  const existingIds = Object.keys(displayedLayers[parentId]);
 
-  const new_ids = minus(incoming_ids, existing_ids);
-  const removed_ids = minus(existing_ids, incoming_ids);
-  const updated_ids = minus(existing_ids, removed_ids);
+  const newIds = minus(incomingIds, existingIds);
+  const removedIds = minus(existingIds, incomingIds);
+  const updatedIds = minus(existingIds, removedIds);
 
-  for (const id of removed_ids) {
-    parent_layer.removeLayer(displayed_layers[parent_id][id]);
-    delete displayed_layers[parent_id][id];
+  for (const id of removedIds) {
+    parentLayer.removeLayer(displayedLayers[parentId][id]);
+    delete displayedLayers[parentId][id];
   }
 
-  for (const id of new_ids) {
+  for (const id of newIds) {
     const layer = display(null, data[id]);
-    parent_layer.addLayer(layer);
-    displayed_layers[parent_id][id] = layer;
+    parentLayer.addLayer(layer);
+    displayedLayers[parentId][id] = layer;
   }
 
-  for (const id of updated_ids) {
-    display(displayed_layers[parent_id][id], data[id]);
+  for (const id of updatedIds) {
+    display(displayedLayers[parentId][id], data[id]);
   }
 }
