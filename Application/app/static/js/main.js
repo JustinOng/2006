@@ -12,6 +12,13 @@ function onPosUpdate(lat, lon) {
   }
 }
 
+function enableMapClick() {
+  map.on("click", (evt) => {
+    console.log("click at", evt.latlng.lat, evt.latlng.lng);
+    onPosUpdate(evt.latlng.lat, evt.latlng.lng);
+  });
+}
+
 window.onload = () => {
   map = L.map("map-container", { zoomControl: false }).setView(
     [1.37, 103.8],
