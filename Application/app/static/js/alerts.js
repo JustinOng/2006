@@ -10,13 +10,16 @@ function load_alerts() {
         iconAnchor: [Math.floor(32 / 2), Math.floor(32 / 2)],
       });
 
-      for (const alert of data["alerts"]) {
-        const marker = L.marker([alert["latitude"], alert["longitude"]], {
-          icon: alertIcon,
-        });
+      sync_display("alerts", alert_layer, data["alerts"], (layer, alert) => {
+        if (layer === null) {
+          layer = L.marker([alert["latitude"], alert["longitude"]], {
+            icon: alertIcon,
+          });
 
-        marker.bindPopup(alert["msg"]);
-        alert_layer.addLayer(marker);
-      }
+          layer.bindPopup(alert["msg"]);
+        }
+
+        return layer;
+      });
     });
 }

@@ -42,3 +42,41 @@ window.onload = () => {
   load_alerts();
   load_erps();
 };
+
+const displayed_layers = {};
+function sync_display(parent_id, parent_layer, data, display) {
+  /*
+    Given key:value pairs in data, create/update/remove layers to sync
+    data with the displayed layers
+    display(layer, data[...]):
+      layer: null if new layer, else existing layer
+      data[...]: one value in data
+  */
+  // appears .getLayerId is broken when called on markerClusterGroup
+  // const parent_id = parent_layer.getLayerId();
+  if (typeof displayed_layers[parent_id] === "undefined") {
+    displayed_layers[parent_id] = {};
+  }
+
+  const incoming_ids = Object.keys(data);
+  const existing_ids = Object.keys(displayed_layers[parent_id]);
+
+  const new_ids = minus(incoming_ids, existing_ids);
+  const removed_ids = minus(existing_ids, incoming_ids);
+  const updated_ids = minus(existing_ids, removed_ids);
+
+  for (const id of removed_ids) {
+    parent_layer.removeLayer(displayed_layers[parent_id][id]);
+    delete displayed_layers[parent_id][id];
+  }
+
+  for (const id of new_ids) {
+    const layer = display(null, data[id]);
+    parent_layer.addLayer(layer);
+    displayed_layers[parent_id][id] = layer;
+  }
+
+  for (const id of updated_ids) {
+    display(displayed_layers[parent_id][id], data[id]);
+  }
+}

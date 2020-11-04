@@ -20,7 +20,6 @@ const carpark_layer = L.markerClusterGroup({
     });
   },
 });
-const carpark_cur_ids = [];
 
 function load_carparks(lat, lon, radius) {
   fetch(`/api/carparks/get`, {
@@ -41,11 +40,7 @@ function load_carparks(lat, lon, radius) {
         carparks[carpark.id] = carpark;
       }
 
-      const new_ids = minus(Object.keys(carparks), carpark_cur_ids);
-
-      for (const carpark_id of new_ids) {
-        const carpark = carparks[carpark_id];
-
+      sync_display("carparks", carpark_layer, carparks, (layer, carpark) => {
         let carpark_availability = "carpark-";
 
         if (carpark.available_lots == 0) {
@@ -56,28 +51,32 @@ function load_carparks(lat, lon, radius) {
           carpark_availability += "available";
         }
 
-        const marker = L.marker([carpark.latitude, carpark.longitude], {
-          title: carpark.available_lots,
-          icon: L.divIcon({
+        if (layer === null) {
+          layer = L.marker([carpark.latitude, carpark.longitude]);
+          layer.bindPopup(carpark.name);
+        }
+
+        layer.setIcon(
+          L.divIcon({
             html: `<img src="img/icons/car-solid.svg"/>`,
             iconSize: [32, 32],
             className: carpark_availability,
-          }),
-        });
-        marker.available_lots = carpark.available_lots;
-        marker.bindPopup(carpark.name);
+          })
+        );
+
+        layer.available_lots = carpark.available_lots;
+
         if (carpark.available_lots == 0) {
-          marker.bindTooltip("No lots available");
+          layer.bindTooltip("No lots available");
         } else {
-          marker.bindTooltip(
+          layer.bindTooltip(
             `${carpark.available_lots} lot${
               carpark.available_lots == 1 ? "" : "s"
             } available`
           );
         }
 
-        carpark_layer.addLayer(marker);
-        carpark_cur_ids.push(carpark_id);
-      }
+        return layer;
+      });
     });
 }
