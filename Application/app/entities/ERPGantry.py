@@ -25,5 +25,3 @@ class ERPGantry(dict):
 
     def addRecord(self, dayType, startTime, endTime, chargeAmount):
         self.records.append(ERPGantryRecord.ERPGantryRecord(dayType, startTime, endTime, chargeAmount))
-           
-        

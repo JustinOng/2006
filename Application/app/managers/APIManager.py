@@ -94,6 +94,7 @@ def get_dm_traffic_incidents():
     response_date = parse_date_header(r.headers["Date"])
     
     return response_date, r.json()["value"]
+
 def get_erp_info():
     erps = {}
     erp_data = []
