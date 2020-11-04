@@ -57,6 +57,6 @@ function displayAlert(alert) {
     delay: 10000,
   });
 
-  const audio = new Audio("audio/bell.wav");
+  const audio = new Audio("audio/234524__foolboymedia__notification-up-1.wav");
   audio.play();
 }
