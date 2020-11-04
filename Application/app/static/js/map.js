@@ -1,4 +1,6 @@
 let map;
+let follow = false;
+let lastLocation = null;
 
 const icons = {
   alert: L.icon({
@@ -25,19 +27,20 @@ const icons = {
 };
 const pos_marker = L.marker();
 
-function setMapView(lat, lon) {
-  const latlng = { lat: lat, lng: lon };
+function setMapView(latlng) {
   map.setView(latlng, 16);
 }
 
-function onPosUpdate(lat, lon) {
-  loadCarparks(lat, lon, 5);
-
-  if (lat && lon) {
-    const latlng = { lat: lat, lng: lon };
+function onPosUpdate(latlng) {
+  if (latlng) {
+    loadCarparks(latlng.lat, latlng.lng, 5);
     pos_marker.setLatLng(latlng);
     map.addLayer(pos_marker);
     map.setView(latlng, 16);
+
+    lastLocation = latlng;
+  } else {
+    loadCarparks();
   }
 }
 
@@ -46,6 +49,13 @@ function enableMapClick() {
     console.log("click at", evt.latlng.lat, evt.latlng.lng);
     onPosUpdate(evt.latlng.lat, evt.latlng.lng);
   });
+}
+
+function setFollow(_follow) {
+  follow = _follow;
+  document.querySelector(".control.follow").classList.toggle("active", follow);
+
+  if (follow && lastLocation !== null) setMapView(lastLocation);
 }
 
 function mapInit() {
@@ -97,12 +107,25 @@ function mapInit() {
   });
 
   map.on("locationfound", (evt) => {
-    onPosUpdate(evt.latlng.lat, evt.latlng.lng);
+    if (lastLocation === null) {
+      document.querySelector(".control.follow").title = "Follow My Location";
+      setFollow(true);
+    }
+
+    if (follow) onPosUpdate(evt.latlng, evt.latlng);
   });
 
   map.on("locationerror", (err) => {
     console.error("Failed to retrieve location:", err);
     onPosUpdate();
+  });
+
+  map.on("dragstart", (evt) => {
+    setFollow(false);
+  });
+
+  document.querySelector(".control.follow").addEventListener("click", () => {
+    setFollow(lastLocation !== null ? !follow : false);
   });
 
   loadTrafficimageMarkers();
