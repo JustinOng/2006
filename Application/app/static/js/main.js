@@ -93,6 +93,8 @@ window.onload = () => {
   for (const layerName in controlLayers) {
     const layerInfo = controlLayers[layerName];
 
+    const layerStorageName = `layer-${layerName}`;
+
     const div = document.createElement("div");
     div.classList.add("control");
     div.dataset.toggle = "tooltip";
@@ -101,7 +103,11 @@ window.onload = () => {
     div.title = layerName;
     div.innerHTML = `<i class="fas fa-${layerInfo.icon}"></i>`;
 
-    if (layerInfo.initiallyActive) {
+    if (localStorage.getItem(layerStorageName) === null) {
+      localStorage.setItem(layerStorageName, !!layerInfo.initiallyActive);
+    }
+
+    if (localStorage.getItem(layerStorageName) === "true") {
       div.classList.add("active");
       map.addLayer(layerInfo.layer);
     }
@@ -110,6 +116,8 @@ window.onload = () => {
       const layer = evt.target.dataset.layer;
       // new state, active or not
       const active = !evt.target.classList.contains("active");
+
+      localStorage.setItem(layerStorageName, active);
 
       if (active) {
         map.addLayer(controlLayers[layer].layer);
