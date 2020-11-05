@@ -36,7 +36,7 @@ function onPosUpdate(latlng) {
     loadCarparks(latlng.lat, latlng.lng, 5);
     pos_marker.setLatLng(latlng);
     map.addLayer(pos_marker);
-    map.setView(latlng, 16);
+    if (follow) setMapView(latlng);
 
     lastLocation = latlng;
   } else {
@@ -47,7 +47,7 @@ function onPosUpdate(latlng) {
 function enableMapClick() {
   map.on("click", (evt) => {
     console.log("click at", evt.latlng.lat, evt.latlng.lng);
-    onPosUpdate(evt.latlng.lat, evt.latlng.lng);
+    onPosUpdate(evt.latlng);
   });
 }
 
