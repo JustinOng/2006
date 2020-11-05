@@ -75,7 +75,7 @@ describe("ERP", () => {
               startTime: "08:00",
               endTime: "08:00",
             },
-            new Date()
+            new Date("2020-11-07T06:59:00")
           );
         });
       });
@@ -88,7 +88,7 @@ describe("ERP", () => {
               startTime: "08:00",
               endTime: "08:00",
             },
-            new Date()
+            new Date("2020-11-07T06:59:00")
           );
         });
       });
