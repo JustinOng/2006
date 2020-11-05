@@ -67,17 +67,6 @@ describe("ERP", () => {
     });
 
     describe("Invalid Record", () => {
-      // (() => {
-      //   inRecord(
-      //     {
-      //       DayType: "Weekdays",
-      //       startTime: "08:00",
-      //       endTime: "08:00",
-      //     },
-      //     new Date()
-      //   );
-      // }).should.throw();
-
       it("should throw if startTime > endTime for a Weekday record", function () {
         should.Throw(() => {
           inRecord(
