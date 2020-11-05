@@ -197,22 +197,23 @@ function syncDisplay(parentId, parentLayer, data, display) {
   const incomingIds = Object.keys(data);
   const existingIds = Object.keys(displayedLayers[parentId]);
 
-  const newIds = minus(incomingIds, existingIds);
-  const removedIds = minus(existingIds, incomingIds);
-  const updatedIds = minus(existingIds, removedIds);
-
-  for (const id of removedIds) {
-    parentLayer.removeLayer(displayedLayers[parentId][id]);
-    delete displayedLayers[parentId][id];
+  for (const id of incomingIds) {
+    if (!existingIds.includes(id)) {
+      // this is a new id, create, then add it to the parent layer
+      const layer = display(null, data[id]);
+      parentLayer.addLayer(layer);
+      displayedLayers[parentId][id] = layer;
+    } else {
+      // update existing
+      display(displayedLayers[parentId][id], data[id]);
+    }
   }
 
-  for (const id of newIds) {
-    const layer = display(null, data[id]);
-    parentLayer.addLayer(layer);
-    displayedLayers[parentId][id] = layer;
-  }
-
-  for (const id of updatedIds) {
-    display(displayedLayers[parentId][id], data[id]);
+  for (const id of existingIds) {
+    if (!incomingIds.includes(id)) {
+      // id is no longer present, delete
+      parentLayer.removeLayer(displayedLayers[parentId][id]);
+      delete displayedLayers[parentId][id];
+    }
   }
 }
