@@ -125,3 +125,7 @@ body {
 .marker-cluster-carpark-available div {
   background-color: rgba(110, 204, 57, 0.6);
 }
+
+.toast {
+  cursor: pointer;
+}
