@@ -40,7 +40,10 @@ function loadAlerts() {
             const dataEle = evt.target
               .closest(".toast")
               .querySelector(".alert-data");
-            setMapView(dataEle.dataset.latitude, dataEle.dataset.longitude);
+            setMapView({
+              lat: dataEle.dataset.latitude,
+              lng: dataEle.dataset.longitude,
+            });
           });
 
         seenAlertIds.push(alert["id"]);
