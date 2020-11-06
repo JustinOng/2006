@@ -143,3 +143,7 @@ body {
   padding: 5px;
   font-size: 0.8em;
 }
+
+.gantry-info tr.active {
+  background-color: #72d772;
+}
