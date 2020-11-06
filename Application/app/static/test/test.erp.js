@@ -4,7 +4,7 @@ describe("ERP", () => {
   describe("inRecord", () => {
     describe("Weekday", () => {
       const record = {
-        DayType: "Weekdays",
+        dayType: "Weekdays",
         startTime: "07:00",
         endTime: "08:00",
       };
@@ -36,7 +36,7 @@ describe("ERP", () => {
 
     describe("Saturday", () => {
       const record = {
-        DayType: "Saturday",
+        dayType: "Saturday",
         startTime: "07:00",
         endTime: "08:00",
       };
@@ -71,7 +71,7 @@ describe("ERP", () => {
         should.Throw(() => {
           inRecord(
             {
-              DayType: "Weekdays",
+              dayType: "Weekdays",
               startTime: "08:00",
               endTime: "08:00",
             },
@@ -84,7 +84,7 @@ describe("ERP", () => {
         should.Throw(() => {
           inRecord(
             {
-              DayType: "Saturday",
+              dayType: "Saturday",
               startTime: "08:00",
               endTime: "08:00",
             },

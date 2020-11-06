@@ -7,14 +7,14 @@ function inRecord(record, datetime) {
 
   // if record is weekday but datetime is not weekday, return false
   if (
-    record["DayType"] === "Weekdays" &&
+    record["dayType"] === "Weekdays" &&
     !(datetime.getDay() >= 1 && datetime.getDay() <= 5)
   ) {
     return false;
   }
 
   // if record is Saturday but datetime is not saturday, return false
-  if (record["DayType"] === "Saturday" && !(datetime.getDay() === 6)) {
+  if (record["dayType"] === "Saturday" && !(datetime.getDay() === 6)) {
     return false;
   }
 
@@ -47,19 +47,55 @@ function loadErps() {
     .then((data) => {
       for (const gantry of Object.values(data["ERPs"])) {
         const marker = L.marker([gantry["latitude"], gantry["longitude"]], {
-          icon: icons["erp"],
+          icon: icons["erpInactive"],
         });
 
-        marker.bindPopup(gantry["name"]);
-        if (erpActive(gantry, new Date()) === false) {
-          marker.setIcon(icons["erpInactive"]);
-          marker.setOpacity(0.5);
-          marker.setZIndexOffset(-500);
-        } else {
-          marker.setZIndexOffset(1000);
-        }
+        marker.gantry = gantry;
 
         erpLayer.addLayer(marker);
       }
+
+      updateErps();
+      setInterval(updateErps, 30 * 1000);
     });
+}
+
+function updateErps(datetime) {
+  if (typeof datetime === "undefined") {
+    datetime = new Date();
+  }
+
+  erpLayer.eachLayer((marker) => {
+    const gantry = marker.gantry;
+    const activeRecord = erpActive(gantry, datetime);
+
+    if (marker.lastActive == activeRecord) {
+      return;
+    }
+
+    marker.lastActive = activeRecord;
+
+    let gantryDescription = `<b>${gantry["name"]}</b><table class="gantry-info">`;
+    gantryDescription += gantry["records"]
+      .map(
+        (record) =>
+          `<tr ${activeRecord == record ? 'class="active"' : ""} ><td>${
+            record["dayType"]
+          }</td><td>${record["startTime"]} - ${record["endTime"]}</td><td>$${
+            record["chargeAmount"]
+          }</td</tr>`
+      )
+      .join("");
+
+    marker.bindPopup(gantryDescription);
+    if (activeRecord === false) {
+      marker.setIcon(icons["erpInactive"]);
+      marker.setOpacity(0.5);
+      marker.setZIndexOffset(-500);
+    } else {
+      marker.setIcon(icons["erp"]);
+      marker.setOpacity(1);
+      marker.setZIndexOffset(1000);
+    }
+  });
 }
