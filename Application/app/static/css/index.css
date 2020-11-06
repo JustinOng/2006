@@ -129,3 +129,17 @@ body {
 .toast {
   cursor: pointer;
 }
+
+.gantry-info {
+  white-space: nowrap;
+}
+
+.gantry-info tr, .gantry-info td {
+  border: 1px solid rgb(204, 204, 204);
+  border-collapse: collapse;
+}
+
+.gantry-info td {
+  padding: 5px;
+  font-size: 0.8em;
+}
