@@ -41,6 +41,7 @@ function erpActive(gantry, datetime) {
   return false;
 }
 
+let updateErpsInterval;
 function loadErps() {
   fetch("/api/ERPs/get")
     .then((res) => res.json())
@@ -56,7 +57,7 @@ function loadErps() {
       }
 
       updateErps();
-      setInterval(updateErps, 30 * 1000);
+      updateErpsInterval = setInterval(updateErps, 30 * 1000);
     });
 }
 
