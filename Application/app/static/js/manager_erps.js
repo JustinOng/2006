@@ -50,16 +50,22 @@ function loadErps() {
           icon: icons["erp"],
         });
 
+        const activeRecord = erpActive(gantry, new Date());
+
         let gantryDescription = `<b>${gantry["name"]}</b><table class="gantry-info">`;
         gantryDescription += gantry["records"]
           .map(
             (record) =>
-              `<tr><td>${record["dayType"]}</td><td>${record["startTime"]} - ${record["endTime"]}</td><td>$${record["chargeAmount"]}</td</tr>`
+              `<tr ${activeRecord == record ? 'class="active"' : ""} ><td>${
+                record["dayType"]
+              }</td><td>${record["startTime"]} - ${
+                record["endTime"]
+              }</td><td>$${record["chargeAmount"]}</td</tr>`
           )
           .join("");
 
         marker.bindPopup(gantryDescription);
-        if (erpActive(gantry, new Date()) === false) {
+        if (activeRecord === false) {
           marker.setIcon(icons["erpInactive"]);
           marker.setOpacity(0.5);
           marker.setZIndexOffset(-500);
