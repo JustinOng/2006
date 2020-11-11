@@ -58,7 +58,7 @@ function loadCarparks(lat, lon, radius) {
 
         layer.setIcon(
           L.divIcon({
-            html: `<img src="img/icons/car-solid.svg"/>`,
+            html: '<i class="fas fa-car" style="font-size: 32px"></i>',
             iconSize: [32, 32],
             className: carpark_availability,
           })
