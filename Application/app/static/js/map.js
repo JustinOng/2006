@@ -108,7 +108,6 @@ function mapInit() {
 
   map.on("locationfound", (evt) => {
     if (lastLocation === null) {
-      document.querySelector(".control.follow").title = "Follow My Location";
       setFollow(true);
     }
 
