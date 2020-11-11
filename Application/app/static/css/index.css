@@ -69,17 +69,16 @@ body {
   border: initial;
 }
 
-/* computed with https://codepen.io/sosuke/pen/Pjoqqp */
-.carpark-full > img {
-  filter: invert(26%) sepia(83%) saturate(7483%) hue-rotate(358deg) brightness(95%) contrast(123%);
+.carpark-full {
+  color: rgb(255, 0, 0);
 }
 
-.carpark-almostfull > img {
-  filter: invert(78%) sepia(60%) saturate(5426%) hue-rotate(347deg) brightness(87%) contrast(89%);
+.carpark-almostfull {
+  color: rgb(211, 116, 34);
 }
 
-.carpark-available > img {
-  filter: invert(24%) sepia(95%) saturate(1829%) hue-rotate(93deg) brightness(96%) contrast(106%);
+.carpark-available {
+  color: rgb(0, 125, 0);
 }
 
 .marker-cluster {
