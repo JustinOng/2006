@@ -52,11 +52,11 @@ body {
   background-color: rgb(244, 244, 244);
 }
 
-#map-controls .layer-selector .control {
+#map-controls .has-state .control {
   color: #ceb9b9;
 }
 
-#map-controls .layer-selector .control.active {
+#map-controls .has-state .control.active {
   color: blue;
 }
 
