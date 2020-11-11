@@ -18,7 +18,7 @@ function loadTrafficimageMarkers() {
         const cam_pu = L.popup({ autoClose: true }).setContent(
           `<div style='width: 300px; height: 300px; background-image: url(/api/trafficimages/get?id=${camera["id"]}); background-size: cover; background-position: center;'></div>`
         );
-        cam.bindPopup(cam_pu).openPopup();
+        cam.bindPopup(cam_pu);
       }
     });
 }
