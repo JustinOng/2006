@@ -7,14 +7,14 @@ function inRecord(record, datetime) {
 
   // if record is weekday but datetime is not weekday, return false
   if (
-    record["DayType"] === "Weekdays" &&
+    record["dayType"] === "Weekdays" &&
     !(datetime.getDay() >= 1 && datetime.getDay() <= 5)
   ) {
     return false;
   }
 
   // if record is Saturday but datetime is not saturday, return false
-  if (record["DayType"] === "Saturday" && !(datetime.getDay() === 6)) {
+  if (record["dayType"] === "Saturday" && !(datetime.getDay() === 6)) {
     return false;
   }
 
