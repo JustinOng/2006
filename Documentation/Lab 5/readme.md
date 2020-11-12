@@ -31,8 +31,8 @@ Application is temporarily live at https://carhub.justins.in
 ### GetTrafficImages
 ![](<Sequence Diagrams/GetTrafficImages.png>)
 
-[Black Box Testing](<Black Box Testing.pdf>)
+[Black Box Testing](<Test Cases/Black Box Testing.pdf>)
 
-[White Box Testing](<White Box Testing.pdf>)
+[White Box Testing](<Test Cases/White Box Testing.pdf>)
 
 [Demo Script](Demo_Script.pdf)
